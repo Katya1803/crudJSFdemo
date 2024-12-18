@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<cc:interface name="employeeInput">
+    <cc:attribute name="nameValue" required="true" />
+    <cc:attribute name="ageValue" required="true" />
+    <cc:attribute name="dobValue" required="true" />
+    <cc:attribute name="validatorBean" required="true" />
+    <cc:attribute name="nameConverter" required="true" />
+    <cc:attribute name="dobConverter" required="true" />
+</cc:interface>
+
+<cc:implementation>
+    <h:form>
+        <!-- Name -->
+        <h:outputLabel value="Name: " />
+        <h:inputText id="name" value="#{cc.attrs.nameValue}" required="true"
+                     validator="#{cc.attrs.validatorBean.validateName}">
+            <f:converter converterId="nameConverter" />
+            <f:ajax event="blur" render="nameMsg name" />
+        </h:inputText>
+        <h:message id="nameMsg" for="name" style="color: red;" />
+        <br/><br/>
+
+        <!-- Age -->
+        <h:outputLabel value="Age: " />
+        <h:inputText id="age" value="#{cc.attrs.ageValue}" required="true"
+                     validator="#{cc.attrs.validatorBean.validateAge}">
+            <f:ajax event="blur" render="ageMsg" />
+        </h:inputText>
+        <h:message id="ageMsg" for="age" style="color: red;" />
+        <br/><br/>
+
+        <!-- Date of Birth -->
+        <h:outputLabel value="Date of Birth (yyyy-MM-dd): " />
+        <h:inputText id="dob" value="#{cc.attrs.dobValue}" required="true"
+                     validator="#{cc.attrs.validatorBean.validateDate}"
+                     >
+            <f:converter converterId="dateConverter" />
+            <f:ajax event="blur" render="dobMsg" />
+        </h:inputText>
+        <h:message id="dobMsg" for="dob" style="color: red;" />
+        <br/><br/>
+    </h:form>
+</cc:implementation>
+</html>

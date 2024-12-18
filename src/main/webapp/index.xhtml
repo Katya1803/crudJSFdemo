@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite/employee">
+<h:head>
+    <title>Employee Management</title>
+</h:head>
+<h:body>
+    <h1>Employee Management</h1>
+
+    <!-- Danh sách nhân viên -->
+    <h:panelGroup id="employeeTablePanel" style="display:block;">
+        <h:form id="employeeListForm">
+            <h:dataTable id="employeeTable" value="#{employeeBean.employees}" var="emp" border="1">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{emp.employeeCode}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{emp.employeeName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Age</f:facet>
+                    #{emp.employeeAge}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Date of Birth</f:facet>
+                    <h:outputText value="#{emp.dateOfBirth}" converter="dateConverter" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:commandButton value="Delete" style="color: crimson"
+                                     action="#{employeeBean.deleteEmployee(emp.employeeCode)}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:panelGroup>
+
+    <p>Functions:</p>
+
+    <!-- Nút Add Employee -->
+    <h:commandButton value="Add Employee"
+                     onclick="toggleAddForm(true); return false;"
+                     style="background-color: limegreen; color: black; border: none; padding: 10px 15px;" />
+    <br/><br/>
+
+    <!-- Form Add Employee -->
+    <h:panelGroup id="employeeAddForm" style="display:none;">
+        <h:form id="employeeAForm">
+            <cc:employeeInput nameValue="#{employeeBean.employee.employeeName}"
+                                  ageValue="#{employeeBean.employee.employeeAge}"
+                                  dobValue="#{employeeBean.employee.dateOfBirth}"
+                                  validatorBean="#{employeeBean}"
+                                  nameConverter="nameConverter"
+                                  dobConverter="dateConverter" />
+            <br/>
+            <h:commandButton value="Save" action="#{employeeBean.addEmployee}">
+                <f:ajax render=":employeeListForm:employeeTable" execute="@form" />
+            </h:commandButton>
+            <h:commandButton value="Cancel" onclick="toggleAddForm(false); return false;" />
+            <br/><br/>
+
+        </h:form>
+    </h:panelGroup>
+
+    <!-- Nút Edit Employee -->
+    <h:commandButton value="Edit Employee"
+                     onclick="toggleEditForm(true); return false;"
+                     style="background-color: limegreen; color: black; border: none; padding: 10px 15px;" />
+    <br/><br/>
+
+    <!-- Form Edit Employee -->
+    <h:panelGroup id="employeeEditForm" style="display:none;">
+        <h:form id="employeeEForm">
+            <h:outputLabel value="Enter Employee ID to Edit: " />
+            <h:inputText id="editCode" value="#{employeeBean.employee.employeeCode}" required="true" />
+            <br/><br/>
+
+            <cc:employeeInput nameValue="#{employeeBean.employee.employeeName}"
+                                  ageValue="#{employeeBean.employee.employeeAge}"
+                                  dobValue="#{employeeBean.employee.dateOfBirth}"
+                                  validatorBean="#{employeeBean}"
+                                  nameConverter="nameConverter"
+                                  dobConverter="dateConverter" />
+            <br/>
+            <h:commandButton value="Save" action="#{employeeBean.updateEmployee}" >
+                <f:ajax render=":employeeListForm:employeeTable" execute="@form" />
+            </h:commandButton>
+            <h:commandButton value="Cancel" onclick="toggleEditForm(false); return false;" />
+            <br/><br/>
+
+        </h:form>
+    </h:panelGroup>
+
+    <script>
+        function toggleAddForm(showForm) {
+            var tablePanel = document.getElementById('employeeTablePanel');
+            var addForm = document.getElementById('employeeAddForm');
+
+            if (showForm) {
+                tablePanel.style.display = 'none';  // Ẩn bảng nhân viên
+                addForm.style.display = 'block';    // Hiển thị form Add
+            } else {
+                tablePanel.style.display = 'block'; // Hiển thị bảng nhân viên
+                addForm.style.display = 'none';     // Ẩn form Add
+            }
+        }
+
+        function toggleEditForm(showForm) {
+            var tablePanel = document.getElementById('employeeTablePanel');
+            var editForm = document.getElementById('employeeEditForm');
+
+            if (showForm) {
+                tablePanel.style.display = 'none';  // Ẩn bảng nhân viên
+                editForm.style.display = 'block';   // Hiển thị form Edit
+            } else {
+                tablePanel.style.display = 'block'; // Hiển thị bảng nhân viên
+                editForm.style.display = 'none';    // Ẩn form Edit
+            }
+        }
+    </script>
+
+</h:body>
+</html>
