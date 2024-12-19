@@ -4,6 +4,7 @@ import com.example.cruddemo.model.Employee;
 import com.example.cruddemo.service.EmployeeService;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -30,6 +31,12 @@ public class EmployeeBean implements Serializable {
     public void init() {
         employee = new Employee(); //bind cho form
         loadEmployees();
+        System.out.println("Employee bean loaded");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Employee bean destroyed");
     }
     // Get nhân viên
     public void loadEmployees() {

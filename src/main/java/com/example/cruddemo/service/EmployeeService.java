@@ -8,5 +8,6 @@ public interface EmployeeService {
     void addEmployee(Employee employee);    // Thêm nhân viên
     void updateEmployee(Employee employee); // Sửa nhân viên
     void deleteEmployee(int id);            // Xóa nhân viên
-    List<Employee> getAllEmployees();       // Lấy danh sách nhân viên
+    List<Employee> getAllEmployees();
+    Employee getEmployeeById(int id);       // Lấy nhân viên theo ID
 }

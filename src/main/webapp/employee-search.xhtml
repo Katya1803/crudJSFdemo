@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Employee Search</title>
+</h:head>
+<h:body>
+    <h1>Employee Search</h1>
+
+    <!-- Form tìm kiếm nhân viên -->
+    <h:form>
+        <h:outputLabel for="empId" value="Enter Employee ID: " />
+        <h:inputText id="empId" value="#{employeeSearchBean.employeeId}" required="true" />
+        <br/><br/>
+
+        <h:commandButton value="Search" action="#{employeeSearchBean.searchEmployee}">
+            <f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+        </h:commandButton>
+    </h:form>
+
+    <!-- Hiển thị kết quả tìm kiếm -->
+    <h:panelGroup rendered="#{not empty employeeSearchBean.employee}">
+        <h2>Employee Details</h2>
+        <p>ID: #{employeeSearchBean.employee.employeeCode}</p>
+        <p>Name: #{employeeSearchBean.employee.employeeName}</p>
+        <p>Age: #{employeeSearchBean.employee.employeeAge}</p>
+        <p>Date of Birth: #{employeeSearchBean.employee.dateOfBirth}</p>
+
+
+    </h:panelGroup>
+
+    <h:form>
+        <h:commandButton value="Go Back" action="#{employeeSearchBean.endConversation}" />
+    </h:form>
+</h:body>
+</html>
